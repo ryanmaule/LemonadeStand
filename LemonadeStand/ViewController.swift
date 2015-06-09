@@ -192,6 +192,23 @@ class ViewController: UIViewController {
     @IBAction func startDay(sender: UIButton) {
         if self.usingLemons > 0 && self.usingIceCubes > 0 {
             var totalCustomers = Int(arc4random_uniform(UInt32(10)))
+            var totalEarnings = 0
+            
+            // Check the weather
+            var weatherSwitch = Int(arc4random_uniform(UInt32(3)))
+            var weatherType = ""
+            switch weatherSwitch {
+            case 0:
+                totalCustomers -= 3
+                weatherType = "Cloudy"
+            case 1:
+                totalCustomers += 4
+                weatherType = "Sunny"
+            default:
+                totalCustomers += 0
+                weatherType = "Normal"
+            }
+            
             println("Total Customers: \(totalCustomers)")
             var recipeRatio = Double(usingLemons) / Double(usingIceCubes)
         
@@ -202,7 +219,7 @@ class ViewController: UIViewController {
                 if customerPreference >= 0 && customerPreference <= 0.4 {
                     if recipeRatio > 1 {
                         println("Paid: Loves Acidic!")
-                        totalBalance++
+                        totalEarnings++
                     }
                     else {
                         println("No Match: Loves Acidic")
@@ -211,7 +228,7 @@ class ViewController: UIViewController {
                 else if customerPreference > 0.4 && customerPreference <= 0.6 {
                     if recipeRatio == 1 {
                         println("Paid: Loves Equal Parts!")
-                        totalBalance++
+                        totalEarnings++
                     }
                     else {
                         println("No Match: Loves Equal Parts")
@@ -220,7 +237,7 @@ class ViewController: UIViewController {
                 else if customerPreference > 0.6 && customerPreference <= 1.0 {
                     if recipeRatio < 1 {
                         println("Paid: Loves Diluted!")
-                        totalBalance++
+                        totalEarnings++
                     }
                     else {
                         println("No Match: Loves Diluted")
@@ -230,7 +247,10 @@ class ViewController: UIViewController {
                     println("Error Occurred: Can't Prefer > 1")
                 }
             }
+            totalBalance += totalEarnings
             self.resetDay()
+            
+            showAlertWithText(header: "Today's Weather: \(weatherType)", message: "You had \(totalCustomers) customers and made $\(totalEarnings)")
         }
         else {
             showAlertWithText(message: "You must use both Lemons and Ice Cubes")
