@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import Foundation
 
 class ViewController: UIViewController {
     
     let kStartingFunds = 10
     let kStartingLemons = 1
     let kStartingIceCubes = 1
+    
     let kLemonPrice = 2
     let kIceCubePrice = 1
     
